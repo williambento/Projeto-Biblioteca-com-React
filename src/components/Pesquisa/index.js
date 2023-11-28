@@ -1,8 +1,10 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Input from "../Input"
-import { DataLivros } from "./DataLivros"
 import styled from "styled-components"
 import { Titulo } from "../Titulo"
+import { getLivros } from "../../servicos/livros"
+import livroIMG from "../../images/livro.png"
+import { postFavoritos } from "../../servicos/favoritos"
 
 const ContainerPesquisa = styled.section`
     display: flex;
@@ -45,8 +47,21 @@ const ImagemLivro = styled.img`
 function Pesquisa() {
 
     const [livroPesquisado, setLivroPesquisado] = useState([])
+    const [livros, setLivros] = useState([])
 
-    console.log(livroPesquisado)
+    useEffect(() => {
+        fetchLivros()
+    }, [])
+ 
+    async function fetchLivros() {
+        const livrosDaAPI = await getLivros()
+        setLivros(livrosDaAPI)
+    }
+
+    async function postFavorito(id){
+        await postFavoritos(id)
+        alert("livro adicionado aos favoritos")
+    }
 
     return (
         <ContainerPesquisa>
@@ -60,16 +75,16 @@ function Pesquisa() {
                 placeholder="Titulo do livro..."
                 onBlur={ evento => {
                     const textoDigitado = evento.target.value
-                    const resultadoPesquisa = DataLivros.filter(livro => livro.nome.includes(textoDigitado))
+                    const resultadoPesquisa = livros.filter(livro => livro.nome.includes(textoDigitado))
                     setLivroPesquisado(resultadoPesquisa)
                 }}
             />
             <LivroContainer>
             {
                 livroPesquisado.map( livro => (
-                    <MostraLivro>
+                    <MostraLivro onClick={ () => postFavorito(livro.id)}>
                         <NomeLivro> {livro.nome} </NomeLivro>
-                        <ImagemLivro src={livro.src} alt="livro" />
+                        <ImagemLivro src={livroIMG} alt="livro" />
                     </MostraLivro>
                 ))
             }
