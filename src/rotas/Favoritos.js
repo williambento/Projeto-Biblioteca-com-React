@@ -5,8 +5,9 @@ import livroImg from '../images/livro.png'
 
 const ContainerApp = styled.div`
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   background: linear-gradient(90deg, #002f52 35%, #0c75c6 100%);
+  margin-top: -30px;
 `
 
 const ResultadoContainer = styled.div`
