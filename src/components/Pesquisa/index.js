@@ -75,7 +75,7 @@ function Pesquisa() {
                 placeholder="Titulo do livro..."
                 onBlur={ evento => {
                     const textoDigitado = evento.target.value
-                    const resultadoPesquisa = livros.filter(livro => livro.nome.includes(textoDigitado))
+                    const resultadoPesquisa = livros.filter(livro => livro.titulo.includes(textoDigitado))
                     setLivroPesquisado(resultadoPesquisa)
                 }}
             />
@@ -83,7 +83,7 @@ function Pesquisa() {
             {
                 livroPesquisado.map( livro => (
                     <MostraLivro onClick={ () => postFavorito(livro.id)}>
-                        <NomeLivro> {livro.nome} </NomeLivro>
+                        <NomeLivro> {livro.titulo} </NomeLivro>
                         <ImagemLivro src={livroIMG} alt="livro" />
                     </MostraLivro>
                 ))
